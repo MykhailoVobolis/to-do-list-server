@@ -36,5 +36,9 @@ export const deleteTaskController = async (req, res, next) => {
     return;
   }
 
-  res.status(204).send();
+  res.status(200).json({
+    status: 200,
+    message: `Successfully delete a task!`,
+    data: task,
+  });
 };
