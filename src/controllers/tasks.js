@@ -1,8 +1,13 @@
 import createHttpError from 'http-errors';
 import { createTask, deleteTask, getAllTasks } from '../services/tasks.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getTasksController = async (req, res, _next) => {
-  const tasks = await getAllTasks();
+  const filter = parseFilterParams(req.query);
+
+  const tasks = await getAllTasks({
+    filter,
+  });
 
   res.json({
     status: 200,

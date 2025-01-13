@@ -1,7 +1,15 @@
 import { TasksCollection } from '../db/models/task.js';
 
-export const getAllTasks = async () => {
-  const tasks = await TasksCollection.find();
+export const getAllTasks = async ({ filter = {} }) => {
+  const tasksQuery = TasksCollection.find();
+
+  if (filter.description) {
+    tasksQuery
+      .where('description')
+      .regex(new RegExp(filter.description, 'i'))
+      .collation({ locale: 'en', strength: 2 });
+  }
+  const tasks = await tasksQuery;
   return tasks;
 };
 
